@@ -8,11 +8,12 @@ const MethodChannel _methodChannel = MethodChannel('plugins.invisiblewrench.com/
 const EventChannel _rxChannel = EventChannel('plugins.invisiblewrench.com/flutter_midi_command/rx_channel');
 const EventChannel _setupChannel = EventChannel('plugins.invisiblewrench.com/flutter_midi_command/setup_channel');
 
-/// An implementation of [UrlLauncherPlatform] that uses method channels.
+/// An implementation of [MidiCommandPlatform] that uses method channels.
 class MethodChannelMidiCommand extends MidiCommandPlatform {
   Stream<Uint8List> _rxStream;
   Stream<String> _setupStream;
 
+  /// Returns a list of found MIDI devices.
   @override
   Future<List<MidiDevice>> get devices async {
     var devs = await _methodChannel.invokeMethod('getDevices');
@@ -34,6 +35,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     }
   }
 
+  /// Stops scanning for BLE MIDI devices.
   @override
   void stopScanningForBluetoothDevices() {
     _methodChannel.invokeMethod('stopScanForDevices');
@@ -51,6 +53,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     _methodChannel.invokeMethod('disconnectDevice', device.toDictionary);
   }
 
+  /// Disconnects from all devices.
   @override
   void teardown() {
     _methodChannel.invokeMethod('teardown');

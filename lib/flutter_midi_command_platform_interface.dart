@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter_midi_command_platform_interface/midi_device.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-
 import 'method_channel_midi_command.dart';
 
 export 'package:flutter_midi_command_platform_interface/midi_device.dart';
@@ -18,7 +17,7 @@ abstract class MidiCommandPlatform extends PlatformInterface {
 
   /// The default instance of [MidiCommandPlatform] to use.
   ///
-  /// Defaults to [MethodChannelUrlLauncher].
+  /// Defaults to [MethodChannelMidiCommand].
   static MidiCommandPlatform get instance => _instance;
 
   /// Platform-specific plugins should set this with their own platform-specific
@@ -28,6 +27,7 @@ abstract class MidiCommandPlatform extends PlatformInterface {
     _instance = instance;
   }
 
+  /// Returns a list of found MIDI devices.
   Future<List<MidiDevice>> get devices async {
     throw UnimplementedError('get devices has not been implemented.');
   }
@@ -39,6 +39,7 @@ abstract class MidiCommandPlatform extends PlatformInterface {
     throw UnimplementedError('startScanningForBluetoothDevices() has not been implemented.');
   }
 
+  /// Stops scanning for BLE MIDI devices.
   void stopScanningForBluetoothDevices() {
     throw UnimplementedError('stopScanningForBluetoothDevices() has not been implemented.');
   }
@@ -53,6 +54,7 @@ abstract class MidiCommandPlatform extends PlatformInterface {
     throw UnimplementedError('disconnectDevice() has not been implemented.');
   }
 
+  /// Disconnects from all devices.
   void teardown() {
     throw UnimplementedError('teardown() has not been implemented.');
   }
