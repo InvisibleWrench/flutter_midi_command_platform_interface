@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:flutter_midi_command_platform_interface/midi_device.dart';
+import 'package:flutter_midi_command_platform_interface/midi_packet.dart';
 import 'flutter_midi_command_platform_interface.dart';
 
 const MethodChannel _methodChannel = MethodChannel('plugins.invisiblewrench.com/flutter_midi_command');
@@ -10,7 +11,7 @@ const EventChannel _setupChannel = EventChannel('plugins.invisiblewrench.com/flu
 
 /// An implementation of [MidiCommandPlatform] that uses method channels.
 class MethodChannelMidiCommand extends MidiCommandPlatform {
-  Stream<Uint8List> _rxStream;
+  Stream<MidiPacket> _rxStream;
   Stream<String> _setupStream;
 
   /// Returns a list of found MIDI devices.
@@ -63,19 +64,19 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   ///
   /// Data is an UInt8List of individual MIDI command bytes.
   @override
-  void sendData(Uint8List data) {
-    print("send $data through method channel");
-    _methodChannel.invokeMethod('sendData', data);
+  void sendData(Uint8List data, {int timestamp, String deviceId}) {
+    // print("send $data through method channel");
+    _methodChannel.invokeMethod('sendData', {"data": data, "timestamp": timestamp, "deviceId": deviceId});
   }
 
   /// Stream firing events whenever a midi package is received.
   ///
   /// The event contains the raw bytes contained in the MIDI package.
   @override
-  Stream<Uint8List> get onMidiDataReceived {
-    print("get on midi data");
-    _rxStream ??= _rxChannel.receiveBroadcastStream().map<Uint8List>((d) {
-      return Uint8List.fromList(List<int>.from(d));
+  Stream<MidiPacket> get onMidiDataReceived {
+    // print("get on midi data");
+    _rxStream ??= _rxChannel.receiveBroadcastStream().map<MidiPacket>((d) {
+      return MidiPacket(Uint8List.fromList(List<int>.from(d["data"])), d["timestamp"] as int);
     });
     return _rxStream;
   }
