@@ -45,6 +45,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   /// Connects to the device.
   @override
   void connectToDevice(MidiDevice device) {
+    print("device info ${device.toDictionary}");
     _methodChannel.invokeMethod('connectToDevice', device.toDictionary);
   }
 
@@ -76,7 +77,10 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   Stream<MidiPacket> get onMidiDataReceived {
     // print("get on midi data");
     _rxStream ??= _rxChannel.receiveBroadcastStream().map<MidiPacket>((d) {
-      return MidiPacket(Uint8List.fromList(List<int>.from(d["data"])), d["timestamp"] as int);
+      var dd = d["device"];
+      print("device data $dd");
+      var device = MidiDevice(dd['id'], dd["name"], dd["type"], dd["connected"]);
+      return MidiPacket(Uint8List.fromList(List<int>.from(d["data"])), d["timestamp"] as int, device);
     });
     return _rxStream;
   }
