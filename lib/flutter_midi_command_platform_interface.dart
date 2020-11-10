@@ -3,11 +3,13 @@ import 'dart:typed_data';
 
 import 'package:flutter_midi_command_platform_interface/midi_device.dart';
 import 'package:flutter_midi_command_platform_interface/midi_packet.dart';
+import 'package:flutter_midi_command_platform_interface/midi_port.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'method_channel_midi_command.dart';
 
 export 'package:flutter_midi_command_platform_interface/midi_device.dart';
 export 'package:flutter_midi_command_platform_interface/midi_packet.dart';
+export 'package:flutter_midi_command_platform_interface/midi_port.dart';
 
 abstract class MidiCommandPlatform extends PlatformInterface {
   /// Constructs a MidiCommandPlatform.
@@ -49,6 +51,11 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   /// Connects to the device.
   void connectToDevice(MidiDevice device) {
     throw UnimplementedError('connectToDevice() has not been implemented.');
+  }
+
+  /// Opens a port on a connected device.
+  void openPortsOnDevice(MidiDevice device, List<MidiPort> ports) {
+    throw UnimplementedError('openPort() has not been implemented.');
   }
 
   /// Disconnects from the device.
