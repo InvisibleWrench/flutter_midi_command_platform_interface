@@ -18,20 +18,17 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   @override
   Future<List<MidiDevice>> get devices async {
     var devs = await _methodChannel.invokeMethod('getDevices');
-    print('devs $devs');
     return devs.map<MidiDevice>((m) {
       var map = m.cast<String, Object>();
-      var dev = MidiDevice(map["id"], map["name"], map["type"], map["connected"] == "true");
-      // print('inputs type ${map['inputs'].map((e) => (e as Map).cast<String, Object>()["id"])}');
-      // print('outputs type ${map['outputs'].map((e) => (e as Map).cast<String, Object>()["id"])}');
+      var dev = MidiDevice(map["id"].toString(), map["name"], map["type"], map["connected"] == "true");
       dev.inputPorts = _portsFromDevice(map["inputs"], MidiPortType.IN);
       dev.outputPorts = _portsFromDevice(map["outputs"], MidiPortType.OUT);
-
       return dev;
     }).toList();
   }
 
   List<MidiPort> _portsFromDevice(List<dynamic> portList, MidiPortType type) {
+    if (portList == null) return List<MidiPort>();
     var ports = portList.map<MidiPort>((e) {
       var portMap = (e as Map).cast<String, Object>();
       return MidiPort(portMap["id"], type);
@@ -60,14 +57,14 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   /// Connects to the device.
   @override
   void connectToDevice(MidiDevice device) {
-    print("device info ${device.toDictionary}");
+    // print("device info ${device.toDictionary}");
     _methodChannel.invokeMethod('connectToDevice', device.toDictionary);
   }
 
   /// Opens a port on a connected device.
   /// @override
   void openPortsOnDevice(MidiDevice device, List<MidiPort> ports) {
-    print("open ports on ${device.toDictionary} ${ports.map((e) => e.toDictionary).toList()}");
+    // print("open ports on ${device.toDictionary} ${ports.map((e) => e.toDictionary).toList()}");
     _methodChannel.invokeMethod('openPortsOnDevice', {"device": device.toDictionary, "ports": ports.map((e) => e.toDictionary).toList()});
   }
 
@@ -100,7 +97,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     // print("get on midi data");
     _rxStream ??= _rxChannel.receiveBroadcastStream().map<MidiPacket>((d) {
       var dd = d["device"];
-      print("device data $dd");
+      // print("device data $dd");
       var device = MidiDevice(dd['id'], dd["name"], dd["type"], dd["connected"]);
       return MidiPacket(Uint8List.fromList(List<int>.from(d["data"])), d["timestamp"] as int, device);
     });
