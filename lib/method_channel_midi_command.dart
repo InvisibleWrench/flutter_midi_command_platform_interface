@@ -64,7 +64,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   /// Data is an UInt8List of individual MIDI command bytes.
   @override
   void sendData(Uint8List data) {
-    print("send $data through method channel");
+    // print("send $data through method channel");
     _methodChannel.invokeMethod('sendData', data);
   }
 
@@ -73,7 +73,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   /// The event contains the raw bytes contained in the MIDI package.
   @override
   Stream<Uint8List> get onMidiDataReceived {
-    print("get on midi data");
+    // print("get on midi data");
     _rxStream ??= _rxChannel.receiveBroadcastStream().map<Uint8List>((d) {
       return Uint8List.fromList(List<int>.from(d));
     });
