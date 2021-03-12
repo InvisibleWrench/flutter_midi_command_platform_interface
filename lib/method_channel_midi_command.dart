@@ -10,12 +10,12 @@ const EventChannel _setupChannel = EventChannel('plugins.invisiblewrench.com/flu
 
 /// An implementation of [MidiCommandPlatform] that uses method channels.
 class MethodChannelMidiCommand extends MidiCommandPlatform {
-  Stream<Uint8List> _rxStream;
-  Stream<String> _setupStream;
+  Stream<Uint8List>? _rxStream;
+  Stream<String>? _setupStream;
 
   /// Returns a list of found MIDI devices.
   @override
-  Future<List<MidiDevice>> get devices async {
+  Future<List<MidiDevice>?> get devices async {
     var devs = await _methodChannel.invokeMethod('getDevices');
     return devs.map<MidiDevice>((m) {
       var map = m.cast<String, Object>();
@@ -31,7 +31,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     try {
       await _methodChannel.invokeMethod('scanForDevices');
     } on PlatformException catch (e) {
-      throw (e.message);
+      throw e.message!;
     }
   }
 
@@ -72,7 +72,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   ///
   /// The event contains the raw bytes contained in the MIDI package.
   @override
-  Stream<Uint8List> get onMidiDataReceived {
+  Stream<Uint8List>? get onMidiDataReceived {
     // print("get on midi data");
     _rxStream ??= _rxChannel.receiveBroadcastStream().map<Uint8List>((d) {
       return Uint8List.fromList(List<int>.from(d));
@@ -84,7 +84,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   ///
   /// For example, when a new BLE devices is discovered.
   @override
-  Stream<String> get onMidiSetupChanged {
+  Stream<String>? get onMidiSetupChanged {
     _setupStream ??= _setupChannel.receiveBroadcastStream().cast<String>();
     return _setupStream;
   }
