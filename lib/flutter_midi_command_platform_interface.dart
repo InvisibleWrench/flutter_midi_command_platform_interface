@@ -32,7 +32,7 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   }
 
   /// Returns a list of found MIDI devices.
-  Future<List<MidiDevice>> get devices async {
+  Future<List<MidiDevice>?> get devices async {
     throw UnimplementedError('get devices has not been implemented.');
   }
 
@@ -71,18 +71,18 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   /// Sends data to the currently connected device.
   ///
   /// Data is an UInt8List of individual MIDI command bytes.
-  void sendData(Uint8List data, {int timestamp, String deviceId}) {
+  void sendData(Uint8List data) {
     throw UnimplementedError('sendData() has not been implemented.');
   }
 
-  Stream<MidiPacket> get onMidiDataReceived {
+  Stream<Uint8List>? get onMidiDataReceived {
     throw UnimplementedError('get onMidiDataReceived has not been implemented.');
   }
 
   /// Stream firing events whenever a change in the MIDI setup occurs.
   ///
   /// For example, when a new BLE devices is discovered.
-  Stream<String> get onMidiSetupChanged {
+  Stream<String>? get onMidiSetupChanged {
     throw UnimplementedError('get onMidiSetupChanged has not been implemented.');
   }
 }

@@ -1,5 +1,9 @@
+## 0.3.0
+- Null safety
+
+
 ## 0.2.1
-- Added MIDI Timestamps to outgoing messages
+- Removed print.
 
 
 ## 0.2.0
