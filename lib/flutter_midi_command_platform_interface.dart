@@ -71,11 +71,11 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   /// Sends data to the currently connected device.
   ///
   /// Data is an UInt8List of individual MIDI command bytes.
-  void sendData(Uint8List data) {
+  void sendData(Uint8List data, {int? timestamp, String? deviceId}) {
     throw UnimplementedError('sendData() has not been implemented.');
   }
 
-  Stream<Uint8List>? get onMidiDataReceived {
+  Stream<MidiPacket>? get onMidiDataReceived {
     throw UnimplementedError('get onMidiDataReceived has not been implemented.');
   }
 
