@@ -16,8 +16,6 @@ class MidiDevice {
       "id": id,
       "type": type,
       "connected": connected,
-      // "inputs": inputPorts?.map((m) => m.toDictionary)?.toList(),
-      // "outputs": outputPorts?.map((m) => m.toDictionary)?.toList(),
     };
   }
 }
