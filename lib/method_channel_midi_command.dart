@@ -43,8 +43,8 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
 
   /// Connects to the device.
   @override
-  void connectToDevice(MidiDevice device) {
-    _methodChannel.invokeMethod('connectToDevice', device.toDictionary);
+  void connectToDevice(MidiDevice device, {List<MidiPort>? ports}) {
+    _methodChannel.invokeMethod('connectToDevice', {"device": device.toDictionary, "ports": ports});
   }
 
   /// Disconnects from the device.
