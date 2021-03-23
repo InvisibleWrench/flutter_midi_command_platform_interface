@@ -19,8 +19,20 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     var devs = await _methodChannel.invokeMethod('getDevices');
     return devs.map<MidiDevice>((m) {
       var map = m.cast<String, Object>();
-      return MidiDevice(map["id"], map["name"], map["type"], map["connected"] == "true");
+      var dev = MidiDevice(map["id"].toString(), map["name"], map["type"], map["connected"] == "true");
+      dev.inputPorts = _portsFromDevice(map["inputs"], MidiPortType.IN);
+      dev.outputPorts = _portsFromDevice(map["outputs"], MidiPortType.OUT);
+      return dev;
     }).toList();
+  }
+
+  List<MidiPort> _portsFromDevice(List<dynamic> portList, MidiPortType type) {
+    if (portList == null) return [];
+    var ports = portList.map<MidiPort>((e) {
+      var portMap = (e as Map).cast<String, Object>();
+      return MidiPort(portMap["id"] as int, type);
+    });
+    return ports.toList(growable: false);
   }
 
   /// Starts scanning for BLE MIDI devices.
@@ -76,7 +88,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     // print("get on midi data");
     _rxStream ??= _rxChannel.receiveBroadcastStream().map<MidiPacket>((d) {
       var dd = d["device"];
-      print("device data $dd");
+      // print("device data $dd");
       var device = MidiDevice(dd['id'], dd["name"], dd["type"], dd["connected"]);
       return MidiPacket(Uint8List.fromList(List<int>.from(d["data"])), d["timestamp"] as int, device);
     });
