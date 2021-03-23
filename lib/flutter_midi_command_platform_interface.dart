@@ -2,10 +2,14 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter_midi_command_platform_interface/midi_device.dart';
+import 'package:flutter_midi_command_platform_interface/midi_packet.dart';
+import 'package:flutter_midi_command_platform_interface/midi_port.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'method_channel_midi_command.dart';
 
 export 'package:flutter_midi_command_platform_interface/midi_device.dart';
+export 'package:flutter_midi_command_platform_interface/midi_packet.dart';
+export 'package:flutter_midi_command_platform_interface/midi_port.dart';
 
 abstract class MidiCommandPlatform extends PlatformInterface {
   /// Constructs a MidiCommandPlatform.
@@ -45,7 +49,7 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   }
 
   /// Connects to the device.
-  void connectToDevice(MidiDevice device) {
+  void connectToDevice(MidiDevice device, {List<MidiPort>? ports}) {
     throw UnimplementedError('connectToDevice() has not been implemented.');
   }
 
@@ -62,11 +66,11 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   /// Sends data to the currently connected device.
   ///
   /// Data is an UInt8List of individual MIDI command bytes.
-  void sendData(Uint8List data) {
+  void sendData(Uint8List data, {int? timestamp, String? deviceId}) {
     throw UnimplementedError('sendData() has not been implemented.');
   }
 
-  Stream<Uint8List>? get onMidiDataReceived {
+  Stream<MidiPacket>? get onMidiDataReceived {
     throw UnimplementedError('get onMidiDataReceived has not been implemented.');
   }
 

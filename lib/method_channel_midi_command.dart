@@ -10,7 +10,7 @@ const EventChannel _setupChannel = EventChannel('plugins.invisiblewrench.com/flu
 
 /// An implementation of [MidiCommandPlatform] that uses method channels.
 class MethodChannelMidiCommand extends MidiCommandPlatform {
-  Stream<Uint8List>? _rxStream;
+  Stream<MidiPacket>? _rxStream;
   Stream<String>? _setupStream;
 
   /// Returns a list of found MIDI devices.
@@ -19,8 +19,20 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     var devs = await _methodChannel.invokeMethod('getDevices');
     return devs.map<MidiDevice>((m) {
       var map = m.cast<String, Object>();
-      return MidiDevice(map["id"], map["name"], map["type"], map["connected"] == "true");
+      var dev = MidiDevice(map["id"].toString(), map["name"], map["type"], map["connected"] == "true");
+      dev.inputPorts = _portsFromDevice(map["inputs"], MidiPortType.IN);
+      dev.outputPorts = _portsFromDevice(map["outputs"], MidiPortType.OUT);
+      return dev;
     }).toList();
+  }
+
+  List<MidiPort> _portsFromDevice(List<dynamic> portList, MidiPortType type) {
+    if (portList == null) return [];
+    var ports = portList.map<MidiPort>((e) {
+      var portMap = (e as Map).cast<String, Object>();
+      return MidiPort(portMap["id"] as int, type);
+    });
+    return ports.toList(growable: false);
   }
 
   /// Starts scanning for BLE MIDI devices.
@@ -43,8 +55,8 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
 
   /// Connects to the device.
   @override
-  void connectToDevice(MidiDevice device) {
-    _methodChannel.invokeMethod('connectToDevice', device.toDictionary);
+  void connectToDevice(MidiDevice device, {List<MidiPort>? ports}) {
+    _methodChannel.invokeMethod('connectToDevice', {"device": device.toDictionary, "ports": ports});
   }
 
   /// Disconnects from the device.
@@ -63,19 +75,22 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   ///
   /// Data is an UInt8List of individual MIDI command bytes.
   @override
-  void sendData(Uint8List data) {
+  void sendData(Uint8List data, {int? timestamp, String? deviceId}) {
     // print("send $data through method channel");
-    _methodChannel.invokeMethod('sendData', data);
+    _methodChannel.invokeMethod('sendData', {"data": data, "timestamp": timestamp, "deviceId": deviceId});
   }
 
   /// Stream firing events whenever a midi package is received.
   ///
   /// The event contains the raw bytes contained in the MIDI package.
   @override
-  Stream<Uint8List>? get onMidiDataReceived {
+  Stream<MidiPacket>? get onMidiDataReceived {
     // print("get on midi data");
-    _rxStream ??= _rxChannel.receiveBroadcastStream().map<Uint8List>((d) {
-      return Uint8List.fromList(List<int>.from(d));
+    _rxStream ??= _rxChannel.receiveBroadcastStream().map<MidiPacket>((d) {
+      var dd = d["device"];
+      // print("device data $dd");
+      var device = MidiDevice(dd['id'], dd["name"], dd["type"], dd["connected"]);
+      return MidiPacket(Uint8List.fromList(List<int>.from(d["data"])), d["timestamp"] as int, device);
     });
     return _rxStream;
   }
