@@ -1,3 +1,6 @@
+## 0.3.2
+- Fixed null warning
+
 ## 0.3.1
 - Aligned midi ports
 

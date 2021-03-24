@@ -26,7 +26,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     }).toList();
   }
 
-  List<MidiPort> _portsFromDevice(List<dynamic> portList, MidiPortType type) {
+  List<MidiPort> _portsFromDevice(List<dynamic>? portList, MidiPortType type) {
     if (portList == null) return [];
     var ports = portList.map<MidiPort>((e) {
       var portMap = (e as Map).cast<String, Object>();
