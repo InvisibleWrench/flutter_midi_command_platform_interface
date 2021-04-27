@@ -1,6 +1,6 @@
 name: flutter_midi_command_platform_interface
 description: A common platform interface for the FlutterMidiCommand plugin.
-version: 0.3.2
+version: 0.3.3
 homepage: https://github.com/InvisibleWrench/FlutterMidiCommand
 
 environment:

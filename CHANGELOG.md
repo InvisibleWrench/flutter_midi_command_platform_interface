@@ -1,3 +1,6 @@
+## 0.3.3
+- Fixed device connection value on Android
+
 ## 0.3.2
 - Fixed null warning
 
