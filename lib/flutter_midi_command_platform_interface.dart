@@ -49,7 +49,7 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   }
 
   /// Connects to the device.
-  void connectToDevice(MidiDevice device, {List<MidiPort>? ports}) {
+  Future<void> connectToDevice(MidiDevice device, {List<MidiPort>? ports}) {
     throw UnimplementedError('connectToDevice() has not been implemented.');
   }
 

@@ -1,3 +1,6 @@
+## 0.4.0
+- Changed API to return future when connecting to device
+
 ## 0.3.3
 - Fixed device connection value on Android
 
