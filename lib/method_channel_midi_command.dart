@@ -105,4 +105,19 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     _setupStream ??= _setupChannel.receiveBroadcastStream().cast<String>();
     return _setupStream;
   }
+
+  /// Creates a virtual MIDI source
+  ///
+  /// The virtual MIDI source appears as a virtual port in other apps.
+  /// Currently only supported on iOS.
+  @override
+  void addVirtualDevice({String? name}) {
+    _methodChannel.invokeMethod('addVirtualDevice', {"name": name});
+  }
+
+  /// Removes a previously addd virtual MIDI source.
+  @override
+  void removeVirtualDevice({String? name}) {
+    _methodChannel.invokeMethod('removeVirtualDevice', {"name": name});
+  }
 }
