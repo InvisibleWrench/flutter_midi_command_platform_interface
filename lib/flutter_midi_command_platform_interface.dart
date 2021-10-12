@@ -79,6 +79,7 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   /// For example, when a new BLE devices is discovered.
   Stream<String>? get onMidiSetupChanged {
     throw UnimplementedError('get onMidiSetupChanged has not been implemented.');
+  }
 
   /// Creates a virtual MIDI source.
   void addVirtualDevice({String? name}) {
