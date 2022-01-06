@@ -36,6 +36,13 @@ abstract class MidiCommandPlatform extends PlatformInterface {
     throw UnimplementedError('get devices has not been implemented.');
   }
 
+  /// Starts bluetooth subsystem. Shows an alert requesting access rights for
+  /// bluetooth.
+  Future<void> startBluetoothCentral() async {
+    throw UnimplementedError(
+        'startBluetoothCentral() has not been implemented.');
+  }
+
   /// Starts scanning for BLE MIDI devices.
   ///
   /// Found devices will be included in the list returned by [devices].

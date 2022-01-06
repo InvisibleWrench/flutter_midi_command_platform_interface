@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
-import 'package:flutter_midi_command_platform_interface/midi_device.dart';
 import 'flutter_midi_command_platform_interface.dart';
 
 const MethodChannel _methodChannel = MethodChannel('plugins.invisiblewrench.com/flutter_midi_command');
@@ -35,6 +34,17 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     return ports.toList(growable: false);
   }
 
+  /// Starts bluetooth subsystem.
+  ///
+  /// Shows an alert requesting access rights for bluetooth.
+  @override
+  Future<void> startBluetoothCentral() async {
+    try {
+      await _methodChannel.invokeMethod('startBluetoothCentral');
+    } on PlatformException catch (e) {
+      throw e.message!;
+    }
+  }
   /// Starts scanning for BLE MIDI devices.
   ///
   /// Found devices will be included in the list returned by [devices].
