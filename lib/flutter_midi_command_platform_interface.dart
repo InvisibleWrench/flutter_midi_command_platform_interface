@@ -43,6 +43,12 @@ abstract class MidiCommandPlatform extends PlatformInterface {
         'startBluetoothCentral() has not been implemented.');
   }
 
+  /// Stream firing events whenever the bluetooth central state changes
+  Stream<String>? get onBluetoothStateChanged {
+    throw UnimplementedError(
+        'get onBluetoothStateChanged has not been implemented.');
+  }
+
   /// Starts scanning for BLE MIDI devices.
   ///
   /// Found devices will be included in the list returned by [devices].

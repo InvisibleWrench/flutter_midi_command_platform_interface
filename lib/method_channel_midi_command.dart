@@ -6,11 +6,14 @@ import 'flutter_midi_command_platform_interface.dart';
 const MethodChannel _methodChannel = MethodChannel('plugins.invisiblewrench.com/flutter_midi_command');
 const EventChannel _rxChannel = EventChannel('plugins.invisiblewrench.com/flutter_midi_command/rx_channel');
 const EventChannel _setupChannel = EventChannel('plugins.invisiblewrench.com/flutter_midi_command/setup_channel');
+const EventChannel _bluetoothStateChannel = EventChannel(
+    'plugins.invisiblewrench.com/flutter_midi_command/bluetooth_central_state');
 
 /// An implementation of [MidiCommandPlatform] that uses method channels.
 class MethodChannelMidiCommand extends MidiCommandPlatform {
   Stream<MidiPacket>? _rxStream;
   Stream<String>? _setupStream;
+  Stream<String>? _bluetoothStateStream;
 
   /// Returns a list of found MIDI devices.
   @override
@@ -45,6 +48,15 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
       throw e.message!;
     }
   }
+
+  /// Stream firing events whenever a change in bluetooth central state happens
+  @override
+  Stream<String>? get onBluetoothStateChanged {
+    _bluetoothStateStream ??=
+        _bluetoothStateChannel.receiveBroadcastStream().cast<String>();
+    return _bluetoothStateStream;
+  }
+
   /// Starts scanning for BLE MIDI devices.
   ///
   /// Found devices will be included in the list returned by [devices].
