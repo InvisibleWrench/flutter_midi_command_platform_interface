@@ -3,9 +3,12 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'flutter_midi_command_platform_interface.dart';
 
-const MethodChannel _methodChannel = MethodChannel('plugins.invisiblewrench.com/flutter_midi_command');
-const EventChannel _rxChannel = EventChannel('plugins.invisiblewrench.com/flutter_midi_command/rx_channel');
-const EventChannel _setupChannel = EventChannel('plugins.invisiblewrench.com/flutter_midi_command/setup_channel');
+const MethodChannel _methodChannel =
+    MethodChannel('plugins.invisiblewrench.com/flutter_midi_command');
+const EventChannel _rxChannel =
+    EventChannel('plugins.invisiblewrench.com/flutter_midi_command/rx_channel');
+const EventChannel _setupChannel = EventChannel(
+    'plugins.invisiblewrench.com/flutter_midi_command/setup_channel');
 const EventChannel _bluetoothStateChannel = EventChannel(
     'plugins.invisiblewrench.com/flutter_midi_command/bluetooth_central_state');
 
@@ -21,7 +24,8 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     var devs = await _methodChannel.invokeMethod('getDevices');
     return devs.map<MidiDevice>((m) {
       var map = m.cast<String, Object>();
-      var dev = MidiDevice(map["id"].toString(), map["name"], map["type"], map["connected"] == "true");
+      var dev = MidiDevice(map["id"].toString(), map["name"], map["type"],
+          map["connected"] == "true");
       dev.inputPorts = _portsFromDevice(map["inputs"], MidiPortType.IN);
       dev.outputPorts = _portsFromDevice(map["outputs"], MidiPortType.OUT);
       return dev;
@@ -57,6 +61,16 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     return _bluetoothStateStream;
   }
 
+  /// Returns the current state of the bluetooth subsystem
+  @override
+  Future<String> bluetoothState() async {
+    try {
+      return await _methodChannel.invokeMethod('bluetoothState');
+    } on PlatformException catch (e) {
+      throw e.message!;
+    }
+  }
+
   /// Starts scanning for BLE MIDI devices.
   ///
   /// Found devices will be included in the list returned by [devices].
@@ -78,7 +92,8 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   /// Connects to the device.
   @override
   void connectToDevice(MidiDevice device, {List<MidiPort>? ports}) {
-    _methodChannel.invokeMethod('connectToDevice', {"device": device.toDictionary, "ports": ports});
+    _methodChannel.invokeMethod(
+        'connectToDevice', {"device": device.toDictionary, "ports": ports});
   }
 
   /// Disconnects from the device.
@@ -99,7 +114,8 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   @override
   void sendData(Uint8List data, {int? timestamp, String? deviceId}) {
     // print("send $data through method channel");
-    _methodChannel.invokeMethod('sendData', {"data": data, "timestamp": timestamp, "deviceId": deviceId});
+    _methodChannel.invokeMethod('sendData',
+        {"data": data, "timestamp": timestamp, "deviceId": deviceId});
   }
 
   /// Stream firing events whenever a midi package is received.
