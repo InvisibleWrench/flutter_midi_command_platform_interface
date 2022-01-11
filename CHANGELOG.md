@@ -1,8 +1,11 @@
-## 0.3.3
+## 0.3.4
 - Improved bluetooth state handling:
   - Start bluetooth subsystem only when you want, not automatically
   - Allow to retrieve bluetooth state before starting scanning
   - Allow to observe bluetooth state (poweredOn, poweredOff, ...)
+  
+## 0.3.3
+- Fixed device status value on Android
 
 ## 0.3.2
 - Fixed null warning
