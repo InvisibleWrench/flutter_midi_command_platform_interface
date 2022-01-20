@@ -1,3 +1,6 @@
+## 0.4.0
+- Fixed missing future in connectDevice()
+
 ## 0.3.4
 - Improved bluetooth state handling:
   - Start bluetooth subsystem only when you want, not automatically
