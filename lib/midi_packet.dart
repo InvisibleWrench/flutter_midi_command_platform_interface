@@ -10,6 +10,10 @@ class MidiPacket {
   MidiPacket(this.data, this.timestamp, this.device);
 
   Map<String, Object> get toDictionary {
-    return {"data": data, "timestamp": timestamp, "sender": device.toDictionary};
+    return {
+      "data": data,
+      "timestamp": timestamp,
+      "sender": device.toDictionary
+    };
   }
 }

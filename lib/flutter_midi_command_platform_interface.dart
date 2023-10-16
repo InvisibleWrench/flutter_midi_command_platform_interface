@@ -39,12 +39,14 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   /// Starts bluetooth subsystem. Shows an alert requesting access rights for
   /// bluetooth.
   Future<void> startBluetoothCentral() async {
-    throw UnimplementedError('startBluetoothCentral() has not been implemented.');
+    throw UnimplementedError(
+        'startBluetoothCentral() has not been implemented.');
   }
 
   /// Stream firing events whenever the bluetooth central state changes
   Stream<String>? get onBluetoothStateChanged {
-    throw UnimplementedError('get onBluetoothStateChanged has not been implemented.');
+    throw UnimplementedError(
+        'get onBluetoothStateChanged has not been implemented.');
   }
 
   /// Returns the current state of the bluetooth sub system
@@ -56,12 +58,14 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   ///
   /// Found devices will be included in the list returned by [devices].
   Future<void> startScanningForBluetoothDevices() async {
-    throw UnimplementedError('startScanningForBluetoothDevices() has not been implemented.');
+    throw UnimplementedError(
+        'startScanningForBluetoothDevices() has not been implemented.');
   }
 
   /// Stops scanning for BLE MIDI devices.
   void stopScanningForBluetoothDevices() {
-    throw UnimplementedError('stopScanningForBluetoothDevices() has not been implemented.');
+    throw UnimplementedError(
+        'stopScanningForBluetoothDevices() has not been implemented.');
   }
 
   /// Connects to the device.
@@ -87,14 +91,16 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   }
 
   Stream<MidiPacket>? get onMidiDataReceived {
-    throw UnimplementedError('get onMidiDataReceived has not been implemented.');
+    throw UnimplementedError(
+        'get onMidiDataReceived has not been implemented.');
   }
 
   /// Stream firing events whenever a change in the MIDI setup occurs.
   ///
   /// For example, when a new BLE devices is discovered.
   Stream<String>? get onMidiSetupChanged {
-    throw UnimplementedError('get onMidiSetupChanged has not been implemented.');
+    throw UnimplementedError(
+        'get onMidiSetupChanged has not been implemented.');
   }
 
   /// Creates a virtual MIDI source.
@@ -109,11 +115,13 @@ abstract class MidiCommandPlatform extends PlatformInterface {
 
   /// Returns the current state of the network session (iOS only)
   Future<bool?> get isNetworkSessionEnabled {
-    throw UnimplementedError('isNetworkSessionEnabled has not been implemented.');
+    throw UnimplementedError(
+        'isNetworkSessionEnabled has not been implemented.');
   }
 
   /// Sets the enabled state of the network session (iOS only)
   void setNetworkSessionEnabled(bool enabled) {
-    throw UnimplementedError('setNetworkSessionEnabled has not been implemented.');
+    throw UnimplementedError(
+        'setNetworkSessionEnabled has not been implemented.');
   }
 }
