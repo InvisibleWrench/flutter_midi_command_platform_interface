@@ -106,4 +106,14 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   void removeVirtualDevice({String? name}) {
     throw UnimplementedError('removeVirtualDevice() has not been implemented.');
   }
+
+  /// Returns the current state of the network session (iOS only)
+  Future<bool?> get isNetworkSessionEnabled {
+    throw UnimplementedError('isNetworkSessionEnabled has not been implemented.');
+  }
+
+  /// Sets the enabled state of the network session (iOS only)
+  void setNetworkSessionEnabled(bool enabled) {
+    throw UnimplementedError('setNetworkSessionEnabled has not been implemented.');
+  }
 }

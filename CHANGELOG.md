@@ -1,3 +1,6 @@
+## 0.4.1
+- Added `isNetworkSessionEnabled` and `setNetworkSessionEnabled` for controlling Network Sessions on iOS (introduced in FlutterMidiCommand 0.4.15)
+
 ## 0.4.0
 - Fixed missing future in connectDevice()
 

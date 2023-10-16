@@ -20,7 +20,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     var devs = await _methodChannel.invokeMethod('getDevices');
     return devs.map<MidiDevice>((m) {
       var map = m.cast<String, Object>();
-      var dev = MidiDevice(map["id"].toString(), map["name"], map["type"], map["connected"] == "true");
+      var dev = MidiDevice(map["id"].toString(), map["name"] ?? "-", map["type"], map["connected"] == "true");
       dev.inputPorts = _portsFromDevice(map["inputs"], MidiPortType.IN);
       dev.outputPorts = _portsFromDevice(map["outputs"], MidiPortType.OUT);
       return dev;
@@ -147,5 +147,20 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   @override
   void removeVirtualDevice({String? name}) {
     _methodChannel.invokeMethod('removeVirtualDevice', {"name": name});
+  }
+
+
+  /// Returns the current state of the network session
+  /// 
+  /// This is functional on iOS only, will return null on other platforms
+  Future<bool?> get isNetworkSessionEnabled {
+    return _methodChannel.invokeMethod('isNetworkSessionEnabled');
+  }
+
+  /// Sets the enabled state of the network session
+  /// 
+  /// This is functional on iOS only
+  void setNetworkSessionEnabled(bool enabled) {
+    _methodChannel.invokeMethod('enableNetworkSession', enabled);
   }
 }
