@@ -123,6 +123,7 @@ abstract class MidiCommandPlatform extends PlatformInterface {
   void setNetworkSessionEnabled(bool enabled) {
     throw UnimplementedError(
         'setNetworkSessionEnabled has not been implemented.');
+  }
 
   /// Returns the current state of the raw MIDI receiving flag.
   Future<bool?> getRawMidiDataReceivingEnabled(String deviceId) {
