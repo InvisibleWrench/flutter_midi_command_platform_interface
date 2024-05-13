@@ -124,13 +124,13 @@ abstract class MidiCommandPlatform extends PlatformInterface {
     throw UnimplementedError(
         'setNetworkSessionEnabled has not been implemented.');
 
-  /// Returns the current state of the raw midi receiving flag.
+  /// Returns the current state of the raw MIDI receiving flag.
   Future<bool?> getRawMidiDataReceivingEnabled(String deviceId) {
     throw UnimplementedError('getRawMidiDataReceivingEnabled has not been implemented.');
   }
 
   /// When enabled all incoming MIDI packets are transmitted exactly as received,
-  /// without compiling them into well formed midi messages.
+  /// without compiling them into well formed MIDI messages.
   Future<void> setRawMidiDataReceivingEnabled(String deviceId, bool enabled) {
     throw UnimplementedError('setRawMidiDataReceivingEnabled has not been implemented.');
   }
