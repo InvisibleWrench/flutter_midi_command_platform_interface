@@ -171,4 +171,17 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   void setNetworkSessionEnabled(bool enabled) {
     _methodChannel.invokeMethod('enableNetworkSession', enabled);
   }
+
+  /// Returns the current state of the raw MIDI message receiving flag.
+  Future<bool?> getRawMidiDataReceivingEnabled(String deviceId) {
+    return _methodChannel.invokeMethod('isRawMidiDataReceivingEnabled', {'deviceId': deviceId});
+  }
+
+  /// Sets the enabled state of raw MIDI data recieving.
+  Future<void> setRawMidiDataReceivingEnabled(String deviceId, bool enabled) {
+    return _methodChannel.invokeMethod(
+      'enableRawMidiDataReceiving',
+      {'deviceId': deviceId, 'enabled': enabled},
+    );
+  }
 }
