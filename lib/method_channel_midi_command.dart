@@ -35,7 +35,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     if (portList == null) return [];
     var ports = portList.map<MidiPort>((e) {
       var portMap = (e as Map).cast<String, Object>();
-      return MidiPort(portMap["id"] as int, type);
+      return MidiPort(portMap["id"] as int, type, portMap['name'] as String);
     });
     return ports.toList(growable: false);
   }
