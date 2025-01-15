@@ -1,3 +1,6 @@
+## 0.4.2
+- No change
+
 ## 0.4.1
 - Added `isNetworkSessionEnabled` and `setNetworkSessionEnabled` for controlling Network Sessions on iOS (introduced in FlutterMidiCommand 0.4.15)
 
