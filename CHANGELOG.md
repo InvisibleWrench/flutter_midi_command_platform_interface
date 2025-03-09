@@ -1,3 +1,6 @@
+## 0.4.3
+- Merged PR4 from felixdollack
+
 ## 0.4.2
 - No change
 
