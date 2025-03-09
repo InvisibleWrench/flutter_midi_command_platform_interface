@@ -126,6 +126,9 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     _rxStream ??= _rxChannel.receiveBroadcastStream().map<MidiPacket>((d) {
       var dd = d["device"];
       // print("device data $dd");
+      if (dd["name"] == null) {
+          dd["name"] = dd['id'];
+      }
       var device = MidiDevice(
           dd['id'], dd["name"], dd["type"], dd["connected"] == "true");
       return MidiPacket(Uint8List.fromList(List<int>.from(d["data"])),
