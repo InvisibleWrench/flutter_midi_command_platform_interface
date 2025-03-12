@@ -27,6 +27,11 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
           map["type"], map["connected"] == "true");
       dev.inputPorts = _portsFromDevice(map["inputs"], MidiPortType.IN);
       dev.outputPorts = _portsFromDevice(map["outputs"], MidiPortType.OUT);
+      dev.serviceUUIDs = (map["serviceUUIDs"] is List)
+          ? (map["serviceUUIDs"] as List)
+              .map((e) => Guid(e.toString()))
+              .toList()
+          : [];
       return dev;
     }).toList();
   }
