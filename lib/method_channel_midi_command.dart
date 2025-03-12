@@ -35,7 +35,7 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
     if (portList == null) return [];
     var ports = portList.map<MidiPort>((e) {
       var portMap = (e as Map).cast<String, Object>();
-      return MidiPort(portMap["id"] as int, type);
+      return MidiPort(portMap["id"] as int, type, portMap['name'] as String);
     });
     return ports.toList(growable: false);
   }
@@ -173,5 +173,18 @@ class MethodChannelMidiCommand extends MidiCommandPlatform {
   /// This is functional on iOS only
   void setNetworkSessionEnabled(bool enabled) {
     _methodChannel.invokeMethod('enableNetworkSession', enabled);
+  }
+
+  /// Returns the current state of the raw MIDI message receiving flag.
+  Future<bool?> getRawMidiDataReceivingEnabled(String deviceId) {
+    return _methodChannel.invokeMethod('isRawMidiDataReceivingEnabled', {'deviceId': deviceId});
+  }
+
+  /// Sets the enabled state of raw MIDI data recieving.
+  Future<void> setRawMidiDataReceivingEnabled(String deviceId, bool enabled) {
+    return _methodChannel.invokeMethod(
+      'enableRawMidiDataReceiving',
+      {'deviceId': deviceId, 'enabled': enabled},
+    );
   }
 }
