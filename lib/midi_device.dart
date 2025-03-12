@@ -1,4 +1,7 @@
 import 'package:flutter_midi_command_platform_interface/midi_port.dart';
+import 'package:flutter_midi_command_platform_interface/guid.dart';
+
+export 'guid.dart';
 
 class MidiDevice {
   String name;
@@ -7,6 +10,7 @@ class MidiDevice {
   List<MidiPort> inputPorts = [];
   List<MidiPort> outputPorts = [];
   bool connected;
+  List<Guid> serviceUUIDs = [];
 
   MidiDevice(this.id, this.name, this.type, this.connected);
 
